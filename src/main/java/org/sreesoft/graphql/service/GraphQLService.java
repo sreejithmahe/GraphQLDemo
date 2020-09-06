@@ -1,12 +1,15 @@
 package org.sreesoft.graphql.service;
 
 
-import graphql.GraphQL;
-import graphql.schema.GraphQLSchema;
-import graphql.schema.idl.RuntimeWiring;
-import graphql.schema.idl.SchemaGenerator;
-import graphql.schema.idl.SchemaParser;
-import graphql.schema.idl.TypeDefinitionRegistry;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.stream.Stream;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -17,13 +20,12 @@ import org.sreesoft.graphql.repository.ProcessRepository;
 import org.sreesoft.graphql.service.datafetcher.ProcessByIdDataFetcher;
 import org.sreesoft.graphql.service.datafetcher.ProcessDataFetcher;
 
-import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.UUID;
-import java.util.stream.Stream;
+import graphql.GraphQL;
+import graphql.schema.GraphQLSchema;
+import graphql.schema.idl.RuntimeWiring;
+import graphql.schema.idl.SchemaGenerator;
+import graphql.schema.idl.SchemaParser;
+import graphql.schema.idl.TypeDefinitionRegistry;
 
 @Service
 public class GraphQLService {
@@ -56,28 +58,28 @@ public class GraphQLService {
         graphQL = GraphQL.newGraphQL(schema).build();
     }
     private void loadDataIntoHSQL() {
-		/*
-		 * Stream.of( new Processes ( new Long(1000), new UUID(868787,
-		 * 987),"TenantName",new UUID(6777, 455),new UUID(555, 97787), new UUID(2333,
-		 * 788),"processName-workflow","variables",Status.PENDING,new
-		 * Timestamp(9863747), "TerminatedBy", new Timestamp(83747), "Modified-who",new
-		 * Timestamp(76863747),"EventType" ) ).forEach(processes -> {
-		 * processRepository.save(processes); });
-		 */
+	  Instant instant = Instant.now();
+  	  Timestamp timestamp = Timestamp.from(instant);
+    	
         Stream.of(
         		new Processes (
         				new Long(1000), "","Samsung","","",
-        				"","processName-workflow","variables","2020-08-21",
-        				"TerminatedBy", "2020-09-01", "Modified-p","2020-09-11","EventType"
+        				"","processName-workflow","variables",timestamp,
+        				"TerminatedBy", "2020-09-01", "Modified-p","2020-09-11","EventType",Status.COMPLETED
         				),new Processes (
-                				new Long(1001), "","John","","",
-                				"","processName-camunda","variables","2020-08-21",
-                				"TerminatedBy", "2020-09-01", "Modified-u","2020-09-11","EventType"
+                				new Long(1001), "","Sony","","",
+                				"","processName-camunda","variables",timestamp,
+                				"TerminatedBy", "2020-09-01", "Modified-u","2020-09-11","EventType",Status.PENDING
                 				),
         		new Processes (
-        				new Long(1002), "","Len","","",
-        				"","processName-kafka","variables","2020-08-21",
-        				"TerminatedBy", "2020-09-01", "Modified-t","2020-09-11","EventType"
+        				new Long(1002), "","Gionee","","",
+        				"","processName-kafka","variables",timestamp,
+        				"TerminatedBy", "2020-09-01", "Modified-t","2020-09-11","EventType",Status.COMPLETED
+        				),
+        		new Processes (
+        				new Long(1003), "","Philips","","",
+        				"","processName-workflow","testData",timestamp,
+        				"TerminatedBy", "2020-09-01", "Modified-t","2020-09-11","EventType",Status.TERMINATED
         				)
         ).forEach(processes -> {
         	processRepository.save(processes);
@@ -87,7 +89,7 @@ public class GraphQLService {
 	private RuntimeWiring buildRuntimeWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring
-                        .dataFetcher("allProces", processDataFetcher)
+                        .dataFetcher("allProcess", processDataFetcher)
                         .dataFetcher("processById", processByIdDataFetcher))
                 .build();
     }

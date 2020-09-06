@@ -3,9 +3,15 @@
  */
 package org.sreesoft.graphql.entity;
 
+import java.sql.Timestamp;
+
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.sreesoft.graphql.model.Status;
+import org.sreesoft.graphql.model.StatusConverter;
 
 /**
  * @author k_sre
@@ -24,9 +30,9 @@ public class Processes {
 	  private String processInstanceId;
 	  private String processName;
 	  private String variables;
-	//  @Convert(converter = StatusConverter.class)
-	//  private Status status;
-	  private String startDateTime;
+	 // @Convert(converter = StatusConverter.class)
+	  private Status status;
+	  private Timestamp startDateTime;
 	  private String terminatedBy;
 	  private String terminatedDateTime;
 	  private String lastModifiedBy;
@@ -131,13 +137,13 @@ public class Processes {
 	/**
 	 * @return the startDateTime
 	 */
-	public String getStartDateTime() {
+	public Timestamp getStartDateTime() {
 		return startDateTime;
 	}
 	/**
 	 * @param startDateTime the startDateTime to set
 	 */
-	public void setStartDateTime(String startDateTime) {
+	public void setStartDateTime(Timestamp startDateTime) {
 		this.startDateTime = startDateTime;
 	}
 	/**
@@ -200,6 +206,20 @@ public class Processes {
 	public void setEventType(String eventType) {
 		this.eventType = eventType;
 	}
+	
+	
+	/**
+	 * @return the status
+	 */
+	public Status getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 	/**
 	 * @param id
 	 * @param tenantId
@@ -215,11 +235,12 @@ public class Processes {
 	 * @param lastModifiedBy
 	 * @param lastModifiedDateTime
 	 * @param eventType
+	 * @param status
 	 */
 	public Processes(Long id, String tenantId, String tenantName, String processDefinitionId, String parentProcessInstanceId,
-			String processInstanceId, String processName, String variables, String startDateTime,
+			String processInstanceId, String processName, String variables, Timestamp startDateTime,
 			String terminatedBy, String terminatedDateTime, String lastModifiedBy, String lastModifiedDateTime,
-			String eventType) {
+			String eventType,Status status) {
 		super();
 		this.id = id;
 		this.tenantId = tenantId;
@@ -235,6 +256,7 @@ public class Processes {
 		this.lastModifiedBy = lastModifiedBy;
 		this.lastModifiedDateTime = lastModifiedDateTime;
 		this.eventType = eventType;
+		this.status = status;
 	}
 	/**
 	 * 
