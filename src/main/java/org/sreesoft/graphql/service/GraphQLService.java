@@ -1,29 +1,27 @@
 package org.sreesoft.graphql.service;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.util.stream.Stream;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
+import org.sreesoft.graphql.entity.Processes;
+import org.sreesoft.graphql.repository.ProcessRepository;
+import org.sreesoft.graphql.service.datafetcher.ProcessByIdDataFetcher;
+import org.sreesoft.graphql.service.datafetcher.ProcessDataFetcher;
+
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Service;
-import org.sreesoft.graphql.entity.Processes;
-import org.sreesoft.graphql.model.Status;
-import org.sreesoft.graphql.repository.ProcessRepository;
-import org.sreesoft.graphql.service.datafetcher.ProcessByIdDataFetcher;
-import org.sreesoft.graphql.service.datafetcher.ProcessDataFetcher;
-
-import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.IOException;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.UUID;
-import java.util.stream.Stream;
 
 @Service
 public class GraphQLService {
@@ -70,13 +68,18 @@ public class GraphQLService {
         				"","processName-workflow","variables","2020-08-21",
         				"TerminatedBy", "2020-09-01", "Modified-p","2020-09-11","EventType"
         				),new Processes (
-                				new Long(1001), "","John","","",
+                				new Long(1001), "","Sony","","",
                 				"","processName-camunda","variables","2020-08-21",
                 				"TerminatedBy", "2020-09-01", "Modified-u","2020-09-11","EventType"
                 				),
         		new Processes (
-        				new Long(1002), "","Len","","",
+        				new Long(1002), "","Gionee","","",
         				"","processName-kafka","variables","2020-08-21",
+        				"TerminatedBy", "2020-09-01", "Modified-t","2020-09-11","EventType"
+        				),
+        		new Processes (
+        				new Long(1003), "","Philips","","",
+        				"","processName-workflow","testData","2020-08-21",
         				"TerminatedBy", "2020-09-01", "Modified-t","2020-09-11","EventType"
         				)
         ).forEach(processes -> {
@@ -87,7 +90,7 @@ public class GraphQLService {
 	private RuntimeWiring buildRuntimeWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring
-                        .dataFetcher("allProces", processDataFetcher)
+                        .dataFetcher("allProcess", processDataFetcher)
                         .dataFetcher("processById", processByIdDataFetcher))
                 .build();
     }

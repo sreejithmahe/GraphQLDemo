@@ -3,7 +3,7 @@ schema {
 }
 
 type Query {
- allProces: [Processes]
+ allProcess: [Processes]
  processById(id: Long): Processes
 }
 

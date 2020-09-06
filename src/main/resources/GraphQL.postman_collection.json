@@ -15,7 +15,7 @@
 					"raw": "{\r\n    allProces \r\n   {\r\n       id\r\n       tenantName\r\n    }\r\n} "
 				},
 				"url": {
-					"raw": "http://localhost:8091/api/process",
+					"raw": "http://localhost:9093/api/process",
 					"protocol": "http",
 					"host": [
 						"localhost"
