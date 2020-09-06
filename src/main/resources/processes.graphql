@@ -1,0 +1,25 @@
+schema {
+ query: Query
+}
+
+type Query {
+ allProces: [Processes]
+ processById(id: Long): Processes
+}
+
+type Processes {
+    id : Long
+    tenantName:String
+    processDefinitionId:String
+    parentProcessInstanceId:String
+    processInstanceId:String
+    processName:String
+    variables:String
+    status:String
+    startDateTime:String
+    terminatedBy:String
+    terminatedDateTime:String
+    lastModifiedBy:String
+    lastModifiedDateTime:String
+    eventType:String
+}
