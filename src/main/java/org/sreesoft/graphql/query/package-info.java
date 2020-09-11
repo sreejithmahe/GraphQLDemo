@@ -1,0 +1,1 @@
+package org.sreesoft.graphql.query;

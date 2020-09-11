@@ -1,11 +1,5 @@
-schema {
- query: Query
-}
-
 type Query {
- allProcess: [Processes]
- processById(id: Long): Processes
-
+ process(count: Int):[Processes]
 }
 
 type Processes {
