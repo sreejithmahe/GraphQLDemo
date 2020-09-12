@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.sreesoft.graphql.service.GraphQLService;
+
 import graphql.ExecutionResult;
 
 /**
@@ -32,11 +33,10 @@ public class ProcessController {
     GraphQLService graphQLService;
 	
 	
+	
 	@PostMapping
 	ResponseEntity<Object> getProcess(@RequestBody String query) {
 		log.info(" @RequestBody : "+query);
-		
-		
 		
 		String inputQuery = StringEscapeUtils.unescapeJava(query);
 		log.info(" @Input Query  : "+inputQuery);
