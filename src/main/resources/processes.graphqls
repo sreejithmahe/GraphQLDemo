@@ -1,9 +1,5 @@
 type Query {
- processAll:[Processes]
- process(count: Int):[Processes]
- byTenantName(tenantName : String):Processes
- processByPage(page: Int,size: Int):[Processes]
- processByPageSortedByTenantName(page: Int,size: Int,SortBy: String):[Processes]
+
  }
 
 type Processes {
@@ -22,3 +18,8 @@ type Processes {
     lastModifiedDateTime:String
     eventType:String
 }
+
+
+
+
+

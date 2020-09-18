@@ -5,7 +5,7 @@ schema {
 type Query {
  allProcess: [Processes]
  processById(id: Long): Processes
-
+ processByTenantName(tenantName:String) :[Processes]
 }
 
 type Processes {

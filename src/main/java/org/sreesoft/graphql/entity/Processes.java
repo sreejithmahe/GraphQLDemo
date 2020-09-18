@@ -4,14 +4,21 @@
 package org.sreesoft.graphql.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.sreesoft.graphql.model.Status;
 import org.sreesoft.graphql.model.StatusConverter;
+
+import io.leangen.graphql.annotations.GraphQLQuery;
 
 /**
  * @author k_sre
@@ -22,7 +29,12 @@ import org.sreesoft.graphql.model.StatusConverter;
 public class Processes {
 	
 	  @Id
+	  @GraphQLQuery(name="Auto", description ="Process Id")
+	  @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	  @GenericGenerator(name = "native", strategy = "native")
 	  private Long id;
+
+	  @GraphQLQuery(name="tenantId", description ="Process tenantId ")
 	  private String tenantId;
 	  private String tenantName;
 	  private String processDefinitionId;
@@ -38,6 +50,7 @@ public class Processes {
 	  private String lastModifiedBy;
 	  private String lastModifiedDateTime;
 	  private String eventType;
+	  
 	/**
 	 * @return the id
 	 */
@@ -264,6 +277,9 @@ public class Processes {
 	public Processes() {
 		super();
 	}
+	public Processes(long l, String string) {
+		// TODO Auto-generated constructor stub
+	}
 	@Override
 	public String toString() {
 		return "Process [id=" + id + ", tenantId=" + tenantId + ", tenantName=" + tenantName + ", processDefinitionId="
@@ -273,6 +289,6 @@ public class Processes {
 				+ terminatedDateTime + ", lastModifiedBy=" + lastModifiedBy + ", lastModifiedDateTime="
 				+ lastModifiedDateTime + ", eventType=" + eventType + "]";
 	}
-	  
+	
 
 }

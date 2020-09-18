@@ -27,8 +27,17 @@ public class ProcessService {
 	}
     
 	@Transactional(readOnly = true)
-	public List<Processes> getProcess(final int count) {
-        return this.processRepository.findAll().stream().limit(count).collect(Collectors.toList());
+	public List<Processes> getProcess(final String count) {
+		
+		Integer inputCount = 0;
+		
+		try {
+			inputCount = Integer.parseInt(count);
+		}catch(NumberFormatException Ne) {
+			System.out.println("This is number format Exception");
+			return this.processRepository.findAll().stream().collect(Collectors.toList());
+		}
+        return this.processRepository.findAll().stream().limit(inputCount).collect(Collectors.toList());
     }
 	
 	@Transactional(readOnly = true)
@@ -46,6 +55,11 @@ public class ProcessService {
 		Pageable pageable = PageRequest.of(page, size,Sort.by(SortBy));
 		return this.processRepository.findAll(pageable).stream().collect(Collectors.toList());
 	}
+	public Integer getTotalCount() {
+		
+		return this.processRepository.findAll().size();
+	}
+	
 
 	
 }

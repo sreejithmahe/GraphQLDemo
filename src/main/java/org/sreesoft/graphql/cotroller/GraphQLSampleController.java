@@ -5,6 +5,8 @@ import graphql.ExecutionResult;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import io.leangen.graphql.GraphQLSchemaGenerator;
+import io.leangen.graphql.metadata.strategy.query.AnnotatedResolverBuilder;
+import io.leangen.graphql.metadata.strategy.value.jackson.JacksonValueMapperFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,15 +28,27 @@ public class GraphQLSampleController {
     private final GraphQL graphQL;
 
     @Autowired
-    public GraphQLSampleController(ProcessQuery processQuery
+    public GraphQLSampleController(ProcessQuery processQuery 
                                    ) {
 
-        //Schema generated from query classes
+     /*
         GraphQLSchema schema = new GraphQLSchemaGenerator()
                 .withBasePackages("org.sreesoft.graphql")
                 .withOperationsFromSingletons(processQuery)
                 .generate();
         graphQL = GraphQL.newGraphQL(schema).build();
+        
+        
+        */
+        
+        GraphQLSchema schema = new GraphQLSchemaGenerator()
+                // .withBasePackages("org.sreesoft.graphql")                   // removed
+                   .withResolverBuilders(new AnnotatedResolverBuilder())       //new
+         		  .withOperationsFromSingletons(processQuery)
+         		  .withValueMapperFactory(new JacksonValueMapperFactory())   //--- new 
+         		  .generate();
+         graphQL = GraphQL.newGraphQL(schema).build();
+
 
         LOGGER.info("Generated GraphQL schema using SPQR");
     }
