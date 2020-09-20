@@ -1,15 +1,48 @@
-query {
-__schema{
-    types{
-        name
-        }
-        }
+query{
+    AllProcessModel {
+      ...processInfo
+  }
+  AllTaskModel {
+      ...tasksInfo
+  }
 }
 
 
-query {
-  byTenantName(tenantName:"Sony") {
-    processName
-    tenantName
-  }
+
+fragment processInfo on ProcessModel {
+  processList{
+           id
+           tenantName
+           processInstanceId
+           tasks{
+             id
+           tenantName
+           processInstanceId
+           }
+       },
+                                     _pageInfo{
+                                        number
+                                        numberOfElements
+                                        totalElements
+                                        totalPages
+       }
+}
+
+fragment tasksInfo on TaskModel {
+
+  taskList{
+           id
+           tenantName
+           processInstanceId
+           processes{
+               id
+           }
+       },
+                                     _pageInfo{
+                                        number
+                                        numberOfElements
+                                        totalElements
+                                        totalPages
+       }
+
 }

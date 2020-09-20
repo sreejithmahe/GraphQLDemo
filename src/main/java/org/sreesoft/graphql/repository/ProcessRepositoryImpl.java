@@ -1,17 +1,10 @@
 package org.sreesoft.graphql.repository;
 
-import java.util.List;
+public abstract class ProcessRepositoryImpl 
+//implements ProcessRepository 
+{
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.sreesoft.graphql.entity.Processes;
-
-import com.google.common.collect.Lists;
-
-public abstract class ProcessRepositoryImpl implements ProcessRepository {
-
+	/*
 	@Autowired
     private EntityManager em;
 	
@@ -30,4 +23,6 @@ public abstract class ProcessRepositoryImpl implements ProcessRepository {
       //  resultList.forEach(object -> somethingList.add(//map obj to something));
         return somethingList;
     }
+	
+	*/
 }

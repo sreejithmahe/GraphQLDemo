@@ -1,0 +1,83 @@
+{
+    "data": {
+        "AllProcessModel": {
+            "processList": [
+                {
+                    "id": 100,
+                    "tenantName": "Yamaha",
+                    "processInstanceId": "66313234-3235-3236-3335-333739693633",
+                    "tasks": [
+                        {
+                            "id": 1000,
+                            "tenantName": "Yamaha-veuthe",
+                            "processInstanceId": "66313234-3235-3236-3335-333739693633"
+                        },
+                        {
+                            "id": 1001,
+                            "tenantName": "Yamaha-vijayichu",
+                            "processInstanceId": "66313234-3235-3236-3335-333739693633"
+                        }
+                    ]
+                },
+                {
+                    "id": 101,
+                    "tenantName": "Holtcat",
+                    "processInstanceId": "75757575-7575-6774-7975-000000000000",
+                    "tasks": [
+                        {
+                            "id": 1002,
+                            "tenantName": "Yamaha-TestNew",
+                            "processInstanceId": "75757575-7575-6774-7975-000000000000"
+                        }
+                    ]
+                },
+                {
+                    "id": 102,
+                    "tenantName": "Holtcat-New",
+                    "processInstanceId": "66313234-3235-3236-3335-333739693635",
+                    "tasks": []
+                }
+            ],
+            "_pageInfo": {
+                "number": 0,
+                "numberOfElements": 3,
+                "totalElements": 3,
+                "totalPages": 1
+            }
+        },
+        "AllTaskModel": {
+            "taskList": [
+                {
+                    "id": 1000,
+                    "tenantName": "Yamaha-veuthe",
+                    "processInstanceId": "66313234-3235-3236-3335-333739693633",
+                    "processes": {
+                        "id": 100
+                    }
+                },
+                {
+                    "id": 1001,
+                    "tenantName": "Yamaha-vijayichu",
+                    "processInstanceId": "66313234-3235-3236-3335-333739693633",
+                    "processes": {
+                        "id": 100
+                    }
+                },
+                {
+                    "id": 1002,
+                    "tenantName": "Yamaha-TestNew",
+                    "processInstanceId": "75757575-7575-6774-7975-000000000000",
+                    "processes": {
+                        "id": 101
+                    }
+                }
+            ],
+            "_pageInfo": {
+                "number": 0,
+                "numberOfElements": 3,
+                "totalElements": 3,
+                "totalPages": 1
+            }
+        }
+    }
+}

@@ -20,4 +20,5 @@ public interface ProcessRepository extends JpaRepository<Processes,Long>{
 
  	 @Query(FIND_BY_TENANT_QUERY)
 	 public Processes findByTenantName(@Param("tenantName") String tenantName);
-}
+ 	 
+ }

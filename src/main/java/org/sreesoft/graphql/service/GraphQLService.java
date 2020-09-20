@@ -3,7 +3,6 @@ package org.sreesoft.graphql.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.stream.Stream;
@@ -15,8 +14,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.sreesoft.graphql.entity.Processes;
+import org.sreesoft.graphql.entity.Tasks;
 import org.sreesoft.graphql.model.Status;
 import org.sreesoft.graphql.repository.ProcessRepository;
+import org.sreesoft.graphql.repository.TaskRepository;
 import org.sreesoft.graphql.service.datafetcher.ProcessByIdDataFetcher;
 import org.sreesoft.graphql.service.datafetcher.ProcessDataFetcher;
 
@@ -32,6 +33,8 @@ public class GraphQLService {
 
     @Autowired
     ProcessRepository processRepository;
+    @Autowired
+    TaskRepository taskRepository;
 
     @Value("classpath:processes.graphql")
     Resource resource;
@@ -60,30 +63,50 @@ public class GraphQLService {
     private void loadDataIntoHSQL() {
 	  Instant instant = Instant.now();
   	  Timestamp timestamp = Timestamp.from(instant);
-    	
-        Stream.of(
+ /*
+  	  Stream.of(
         		new Processes (
-        				new Long(1000), "","Samsung","","",
-        				"","processName-workflow","variables",timestamp,
+        				new Long(1000), "","Samsung","","33",
+        				"5001","processName-workflow","variables",timestamp,
         				"TerminatedBy", "2020-09-01", "Modified-p","2020-09-11","EventType",Status.COMPLETED
         				),new Processes (
-                				new Long(1001), "","Sony","","",
-                				"","processName-camunda","variables",timestamp,
+                				new Long(1001), "","Sony","","55",
+                				"5002","processName-camunda","variables",timestamp,
                 				"TerminatedBy", "2020-09-01", "Modified-u","2020-09-11","EventType",Status.PENDING
                 				),
         		new Processes (
-        				new Long(1002), "","Gionee","","",
-        				"","processName-kafka","variables",timestamp,
+        				new Long(1002), "","Gionee","","66",
+        				"5003","processName-kafka","variables",timestamp,
         				"TerminatedBy", "2020-09-01", "Modified-t","2020-09-11","EventType",Status.COMPLETED
         				),
         		new Processes (
-        				new Long(1003), "","Philips","","",
-        				"","processName-workflow","testData",timestamp,
+        				new Long(1003), "","Philips","","65",
+        				"5004","processName-workflow","testData",timestamp,
         				"TerminatedBy", "2020-09-01", "Modified-t","2020-09-11","EventType",Status.TERMINATED
         				)
         ).forEach(processes -> {
         	processRepository.save(processes);
         });
+        
+        
+        Stream.of(
+        		new Tasks (
+        				new Long(100), "5001","Winld","wilddog",""
+        				),
+        		new Tasks (
+        				new Long(101), "5001","Herald","booto",""
+                		),
+        		new Tasks (
+        				new Long(102), "5002","Wintage","rajesh",""
+        				),
+        		new Tasks (
+        				new Long(103), "5004","Mykuna","mygu",""
+        				)
+        ).forEach(tasks -> {
+        	taskRepository.save(tasks);
+        });
+        
+       */
     }
 
 	private RuntimeWiring buildRuntimeWiring() {

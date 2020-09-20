@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.sreesoft.graphql.query.ProcessQuery;
+import org.sreesoft.graphql.query.TaskQuery;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class GraphQLSampleController {
     private final GraphQL graphQL;
 
     @Autowired
-    public GraphQLSampleController(ProcessQuery processQuery 
+    public GraphQLSampleController(ProcessQuery processQuery ,TaskQuery taskQuery
                                    ) {
 
      /*
@@ -44,7 +45,7 @@ public class GraphQLSampleController {
         GraphQLSchema schema = new GraphQLSchemaGenerator()
                 // .withBasePackages("org.sreesoft.graphql")                   // removed
                    .withResolverBuilders(new AnnotatedResolverBuilder())       //new
-         		  .withOperationsFromSingletons(processQuery)
+         		  .withOperationsFromSingletons(processQuery,taskQuery)
          		  .withValueMapperFactory(new JacksonValueMapperFactory())   //--- new 
          		  .generate();
          graphQL = GraphQL.newGraphQL(schema).build();
@@ -53,7 +54,7 @@ public class GraphQLSampleController {
         LOGGER.info("Generated GraphQL schema using SPQR");
     }
 
-    @PostMapping(value = "/graphql", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/graphql", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Object> indexFromAnnotated(@RequestBody Map<String, String> request, HttpServletRequest raw) {
         ExecutionResult executionResult = graphQL.execute(ExecutionInput.newExecutionInput()

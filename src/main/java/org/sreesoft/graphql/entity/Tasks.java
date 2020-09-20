@@ -1,60 +1,40 @@
-/**
- * 
- */
 package org.sreesoft.graphql.entity;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
-import org.sreesoft.graphql.model.Status;
-import org.sreesoft.graphql.model.StatusConverter;
 
-import io.leangen.graphql.annotations.GraphQLQuery;
 
-/**
- * @author k_sre
- *
- */
-@Table(name = "processes")
+@Table(name = "tasks")
 @Entity
-public class Processes implements Serializable {
+public class Tasks {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-
 	@Id
 	//  @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-	//  @GenericGenerator(name = "native", strategy = "native")
+	 // @GenericGenerator(name = "native", strategy = "native")
 	
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
 
+	
 	  private Long id;
 
 
 	  @NotNull
 	  @Column(columnDefinition = "BINARY(16)")
 	  @Type(type = "uuid-binary")
-	  @GraphQLQuery(name="TenantId", description ="Process tenantId ")
 	  private UUID tenantId;
 
 	  private String tenantName;
@@ -62,39 +42,41 @@ public class Processes implements Serializable {
 	  @NotNull
 	  @Column(columnDefinition = "BINARY(16)")
 	  @Type(type = "uuid-binary")
-	  private UUID processDefinitionId;
+	  private UUID taskInstanceId;
 
-	  
-	  @Column(columnDefinition = "BINARY(16)")
-	  @Type(type = "uuid-binary")
-	  private UUID parentProcessInstanceId;
+	  private String taskName;
 
-	  @NaturalId
+	  private String taskType;
+
 	  @NotNull
 	  @Column(columnDefinition = "BINARY(16)")
 	  @Type(type = "uuid-binary")
 	  private UUID processInstanceId;
 	  
 	  
-
-	  @OneToMany(mappedBy = "processes", fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL)
-	  private List<Tasks> tasks;
+	  
+	  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+	  @JoinColumn(name = "processes_id", nullable = false,referencedColumnName = "processInstanceId")
+	  private Processes processes;
 	  
 	  
-
-	  private String processName;
 
 	  @NotNull
 	  @Column(columnDefinition = "VARCHAR(4000)")
 	  private String variables;
 
 	  @NotNull
-	  @Convert(converter = StatusConverter.class)
-	  private Status status;
+	 // @Convert(converter = StatusConverter.class)
+	  private String status;
+
+	  private String assignee;
+
+	  private Timestamp assignedDateTime;
 
 	  @NotNull
 	  private Timestamp startDateTime;
+
+	  private String completedBy;
 
 	  private Timestamp completedDateTime;
 
@@ -154,31 +136,45 @@ public class Processes implements Serializable {
 	}
 
 	/**
-	 * @return the processDefinitionId
+	 * @return the taskInstanceId
 	 */
-	public UUID getProcessDefinitionId() {
-		return processDefinitionId;
+	public UUID getTaskInstanceId() {
+		return taskInstanceId;
 	}
 
 	/**
-	 * @param processDefinitionId the processDefinitionId to set
+	 * @param taskInstanceId the taskInstanceId to set
 	 */
-	public void setProcessDefinitionId(UUID processDefinitionId) {
-		this.processDefinitionId = processDefinitionId;
+	public void setTaskInstanceId(UUID taskInstanceId) {
+		this.taskInstanceId = taskInstanceId;
 	}
 
 	/**
-	 * @return the parentProcessInstanceId
+	 * @return the taskName
 	 */
-	public UUID getParentProcessInstanceId() {
-		return parentProcessInstanceId;
+	public String getTaskName() {
+		return taskName;
 	}
 
 	/**
-	 * @param parentProcessInstanceId the parentProcessInstanceId to set
+	 * @param taskName the taskName to set
 	 */
-	public void setParentProcessInstanceId(UUID parentProcessInstanceId) {
-		this.parentProcessInstanceId = parentProcessInstanceId;
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
+	}
+
+	/**
+	 * @return the taskType
+	 */
+	public String getTaskType() {
+		return taskType;
+	}
+
+	/**
+	 * @param taskType the taskType to set
+	 */
+	public void setTaskType(String taskType) {
+		this.taskType = taskType;
 	}
 
 	/**
@@ -193,20 +189,6 @@ public class Processes implements Serializable {
 	 */
 	public void setProcessInstanceId(UUID processInstanceId) {
 		this.processInstanceId = processInstanceId;
-	}
-
-	/**
-	 * @return the processName
-	 */
-	public String getProcessName() {
-		return processName;
-	}
-
-	/**
-	 * @param processName the processName to set
-	 */
-	public void setProcessName(String processName) {
-		this.processName = processName;
 	}
 
 	/**
@@ -226,15 +208,43 @@ public class Processes implements Serializable {
 	/**
 	 * @return the status
 	 */
-	public Status getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
 	/**
 	 * @param status the status to set
 	 */
-	public void setStatus(Status status) {
+	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	/**
+	 * @return the assignee
+	 */
+	public String getAssignee() {
+		return assignee;
+	}
+
+	/**
+	 * @param assignee the assignee to set
+	 */
+	public void setAssignee(String assignee) {
+		this.assignee = assignee;
+	}
+
+	/**
+	 * @return the assignedDateTime
+	 */
+	public Timestamp getAssignedDateTime() {
+		return assignedDateTime;
+	}
+
+	/**
+	 * @param assignedDateTime the assignedDateTime to set
+	 */
+	public void setAssignedDateTime(Timestamp assignedDateTime) {
+		this.assignedDateTime = assignedDateTime;
 	}
 
 	/**
@@ -249,6 +259,20 @@ public class Processes implements Serializable {
 	 */
 	public void setStartDateTime(Timestamp startDateTime) {
 		this.startDateTime = startDateTime;
+	}
+
+	/**
+	 * @return the completedBy
+	 */
+	public String getCompletedBy() {
+		return completedBy;
+	}
+
+	/**
+	 * @param completedBy the completedBy to set
+	 */
+	public void setCompletedBy(String completedBy) {
+		this.completedBy = completedBy;
 	}
 
 	/**
@@ -336,31 +360,34 @@ public class Processes implements Serializable {
 	}
 
 	/**
-	 * @return the tasks
+	 * @return the processes
 	 */
-	public List<Tasks> getTasks() {
-		return tasks;
+	public Processes getProcesses() {
+		return processes;
 	}
 
 	/**
-	 * @param tasks the tasks to set
+	 * @param processes the processes to set
 	 */
-	public void setTasks(List<Tasks> tasks) {
-		this.tasks = tasks;
+	public void setProcesses(Processes processes) {
+		this.processes = processes;
 	}
 
 	/**
 	 * @param id
 	 * @param tenantId
 	 * @param tenantName
-	 * @param processDefinitionId
-	 * @param parentProcessInstanceId
+	 * @param taskInstanceId
+	 * @param taskName
+	 * @param taskType
 	 * @param processInstanceId
-	 * @param tasks
-	 * @param processName
+	 * @param processes
 	 * @param variables
 	 * @param status
+	 * @param assignee
+	 * @param assignedDateTime
 	 * @param startDateTime
+	 * @param completedBy
 	 * @param completedDateTime
 	 * @param terminatedBy
 	 * @param terminatedDateTime
@@ -368,23 +395,26 @@ public class Processes implements Serializable {
 	 * @param lastModifiedDateTime
 	 * @param eventType
 	 */
-	public Processes(Long id, @NotNull UUID tenantId, String tenantName, @NotNull UUID processDefinitionId,
-			UUID parentProcessInstanceId, @NotNull UUID processInstanceId, List<Tasks> tasks, String processName,
-			@NotNull String variables, @NotNull Status status, @NotNull Timestamp startDateTime,
-			Timestamp completedDateTime, String terminatedBy, Timestamp terminatedDateTime,
+	public Tasks(Long id, @NotNull UUID tenantId, String tenantName, @NotNull UUID taskInstanceId, String taskName,
+			String taskType, @NotNull UUID processInstanceId, Processes processes, @NotNull String variables,
+			@NotNull String status, String assignee, Timestamp assignedDateTime, @NotNull Timestamp startDateTime,
+			String completedBy, Timestamp completedDateTime, String terminatedBy, Timestamp terminatedDateTime,
 			@NotNull String lastModifiedBy, @NotNull Timestamp lastModifiedDateTime, @NotNull String eventType) {
 		super();
 		this.id = id;
 		this.tenantId = tenantId;
 		this.tenantName = tenantName;
-		this.processDefinitionId = processDefinitionId;
-		this.parentProcessInstanceId = parentProcessInstanceId;
+		this.taskInstanceId = taskInstanceId;
+		this.taskName = taskName;
+		this.taskType = taskType;
 		this.processInstanceId = processInstanceId;
-		this.tasks = tasks;
-		this.processName = processName;
+		this.processes = processes;
 		this.variables = variables;
 		this.status = status;
+		this.assignee = assignee;
+		this.assignedDateTime = assignedDateTime;
 		this.startDateTime = startDateTime;
+		this.completedBy = completedBy;
 		this.completedDateTime = completedDateTime;
 		this.terminatedBy = terminatedBy;
 		this.terminatedDateTime = terminatedDateTime;
@@ -395,21 +425,23 @@ public class Processes implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Processes [id=" + id + ", tenantId=" + tenantId + ", tenantName=" + tenantName
-				+ ", processDefinitionId=" + processDefinitionId + ", parentProcessInstanceId="
-				+ parentProcessInstanceId + ", processInstanceId=" + processInstanceId + ", tasks=" + tasks
-				+ ", processName=" + processName + ", variables=" + variables + ", status=" + status
-				+ ", startDateTime=" + startDateTime + ", completedDateTime=" + completedDateTime + ", terminatedBy="
-				+ terminatedBy + ", terminatedDateTime=" + terminatedDateTime + ", lastModifiedBy=" + lastModifiedBy
-				+ ", lastModifiedDateTime=" + lastModifiedDateTime + ", eventType=" + eventType + "]";
+		return "Tasks [id=" + id + ", tenantId=" + tenantId + ", tenantName=" + tenantName + ", taskInstanceId="
+				+ taskInstanceId + ", taskName=" + taskName + ", taskType=" + taskType + ", processInstanceId="
+				+ processInstanceId + ", processes=" + processes + ", variables=" + variables + ", status=" + status
+				+ ", assignee=" + assignee + ", assignedDateTime=" + assignedDateTime + ", startDateTime="
+				+ startDateTime + ", completedBy=" + completedBy + ", completedDateTime=" + completedDateTime
+				+ ", terminatedBy=" + terminatedBy + ", terminatedDateTime=" + terminatedDateTime + ", lastModifiedBy="
+				+ lastModifiedBy + ", lastModifiedDateTime=" + lastModifiedDateTime + ", eventType=" + eventType + "]";
 	}
 
 	/**
 	 * 
 	 */
-	public Processes() {
+	public Tasks() {
 		super();
 	}
-
-
+	  
+	  
+	  
+	  
 }

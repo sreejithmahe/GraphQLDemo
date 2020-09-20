@@ -3,15 +3,16 @@ package org.sreesoft.graphql.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.jaxb.SpringDataJaxb.PageDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.sreesoft.graphql.entity.Processes;
 import org.sreesoft.graphql.repository.ProcessRepository;
+
+
 
 @Service
 public class ProcessService {
@@ -27,17 +28,10 @@ public class ProcessService {
 	}
     
 	@Transactional(readOnly = true)
-	public List<Processes> getProcess(final String count) {
-		
-		Integer inputCount = 0;
-		
-		try {
-			inputCount = Integer.parseInt(count);
-		}catch(NumberFormatException Ne) {
-			System.out.println("This is number format Exception");
+	public List<Processes> getProcess(final int count) {
+		if(count == 0) 
 			return this.processRepository.findAll().stream().collect(Collectors.toList());
-		}
-        return this.processRepository.findAll().stream().limit(inputCount).collect(Collectors.toList());
+        return this.processRepository.findAll().stream().limit(count).collect(Collectors.toList());
     }
 	
 	@Transactional(readOnly = true)
@@ -56,10 +50,18 @@ public class ProcessService {
 		return this.processRepository.findAll(pageable).stream().collect(Collectors.toList());
 	}
 	public Integer getTotalCount() {
-		
 		return this.processRepository.findAll().size();
 	}
-	
-
-	
+	public Integer getTotalPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+       return this.processRepository.findAll(pageable).getTotalPages();
+	}
+	public Page<Processes> getPageInfo(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return this.processRepository.findAll(pageable);
+	}
+	public boolean getPageable(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+        return this.processRepository.findAll(pageable).getPageable().isPaged();
+	}
 }
