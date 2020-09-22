@@ -5,18 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import org.sreesoft.graphql.entity.Processes;
 import org.sreesoft.graphql.entity.Tasks;
-import org.sreesoft.graphql.model.ProcessModel;
 import org.sreesoft.graphql.model.TaskModel;
 import org.sreesoft.graphql.service.TaskService;
 
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLContext;
 import io.leangen.graphql.annotations.GraphQLQuery;
+import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 
 
 @Component
+@GraphQLApi
 public class TaskQuery 
 {
 	@Autowired

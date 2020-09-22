@@ -9,12 +9,17 @@ import org.sreesoft.graphql.entity.Processes;
 import org.sreesoft.graphql.model.ProcessModel;
 import org.sreesoft.graphql.service.ProcessService;
 
+import com.coxautodev.graphql.tools.GraphQLQueryResolver;
+
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLContext;
 import io.leangen.graphql.annotations.GraphQLQuery;
+import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
+
 
 
 @Component
+@GraphQLApi
 public class ProcessQuery 
 			//	implements GraphQLQueryResolver
 {
@@ -32,9 +37,12 @@ public class ProcessQuery
     }
 	
 	@GraphQLQuery(name ="AllProcess")
-	public List<Processes> getProcess(@GraphQLArgument(name ="count" ,defaultValue = "0" ) final int count) {
+	public List<Processes> getProcessAll(@GraphQLArgument(name ="count" ,defaultValue = "0" ) final int count) {
         return this.processService.getProcess(count);
     }
+	
+	/*
+	
 	@GraphQLQuery(name ="AllProcessByTenantName")
 	public Processes getByTenantName(final String tenantName) {
         return this.processService.getByTenantName(tenantName);
@@ -68,4 +76,5 @@ public class ProcessQuery
 	public boolean getPageable(@GraphQLContext Processes processes,int page, int size) {
 		return this.processService.getPageable(page,size);
 	}
+	*/
 }
