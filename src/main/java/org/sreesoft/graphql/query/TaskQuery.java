@@ -23,12 +23,18 @@ public class TaskQuery
 	TaskService taskService;
    
 	@GraphQLQuery(name ="AllTaskModel")
-	public TaskModel getTask(@GraphQLArgument(name ="count" ,defaultValue = "0" ) final int count) {
+	public TaskModel getTask() {
         
-		List<Tasks> taskList = taskService.getTask(count);
+		List<Tasks> taskList = taskService.getTaskAll();
 		TaskModel taskModel = new TaskModel();
 		TaskModel.setTaskList(taskList);
         return taskModel;
+    }
+	
+	@GraphQLQuery(name ="taskAll")
+	public List<Tasks> getTaskAll(@GraphQLArgument(name ="count" ,defaultValue = "0" ) final int count) {
+		return this.taskService.getTask(count);
+		
     }
 	
 	

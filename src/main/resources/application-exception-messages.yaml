@@ -1,0 +1,6 @@
+spring.mvc.throw-exception-if-no-handler-found: true
+error.audit.500.message: Please Contact Administrator to resolve Technical Issue.
+error.audit.404.message: Please Contact Administrator 404 error occurred.
+error.audit.401.message: Please Contact Administrator 401 error occurred.
+error.audit.504.message: Please Contact Administrator 504 timeout error occurred.
+error.audit.400.message: Please Contact Administrator 400 Syntax error or bad request error occurred.

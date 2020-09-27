@@ -22,6 +22,10 @@ public class TaskService {
         this.taskRepository = taskRepository ;
     }
     @Transactional(readOnly = true)
+	public List<Tasks> getTaskAll() {
+		return this.taskRepository.findAll().stream().collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
 	public List<Tasks> getTask(final int count) {
 		if(count == 0) 
 			return this.taskRepository.findAll().stream().collect(Collectors.toList());

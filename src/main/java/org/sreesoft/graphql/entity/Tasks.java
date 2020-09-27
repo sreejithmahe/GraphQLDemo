@@ -17,19 +17,16 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Type;
 
 
+
+
 @Table(name = "tasks")
 @Entity
 public class Tasks {
 	
-	@Id
-	//  @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-	 // @GenericGenerator(name = "native", strategy = "native")
-	
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
 
-	
-	  private Long id;
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
 
 	  @NotNull

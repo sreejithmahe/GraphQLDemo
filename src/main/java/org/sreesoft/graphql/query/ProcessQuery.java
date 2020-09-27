@@ -3,26 +3,23 @@ package org.sreesoft.graphql.query;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.sreesoft.graphql.entity.Processes;
 import org.sreesoft.graphql.model.ProcessModel;
 import org.sreesoft.graphql.service.ProcessService;
 
-import com.coxautodev.graphql.tools.GraphQLQueryResolver;
-
 import io.leangen.graphql.annotations.GraphQLArgument;
-import io.leangen.graphql.annotations.GraphQLContext;
 import io.leangen.graphql.annotations.GraphQLQuery;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
+
 
 
 
 @Component
 @GraphQLApi
 public class ProcessQuery 
-			//	implements GraphQLQueryResolver
 {
+	 
 	@Autowired
 	ProcessService processService;
     
@@ -36,10 +33,13 @@ public class ProcessQuery
         return processModel;
     }
 	
-	@GraphQLQuery(name ="AllProcess")
+	@GraphQLQuery(name ="processAll")
 	public List<Processes> getProcessAll(@GraphQLArgument(name ="count" ,defaultValue = "0" ) final int count) {
+		
         return this.processService.getProcess(count);
+		
     }
+	
 	
 	/*
 	
