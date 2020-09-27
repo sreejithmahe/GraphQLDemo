@@ -51,7 +51,7 @@ public class ProcessService {
 	@Transactional(readOnly = true)
 	public List<Processes> getProcess(final int count) {
 		
-		
+		log.info("Logger");
 	try {
 		if(count == 0) 
 			return this.processRepository.findAll().stream().collect(Collectors.toList());
