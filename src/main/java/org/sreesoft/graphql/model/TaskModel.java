@@ -4,14 +4,29 @@ import java.util.List;
 
 import org.sreesoft.graphql.entity.Tasks;
 
-public class TaskModel {
-	private static List<Tasks> taskList;
+/**
+ * @author k_sre
+ *
+ */
+public final class TaskModel {
+/**
+ *
+ */
+private static List<Tasks> tasks;
 
-	public static List<Tasks> getTaskList() {
-		return taskList;
-	}
+/**
+ * @return the tasks
+ */
+public static List<Tasks> getTasks() {
+return tasks;
+}
 
-	public static void setTaskList(List<Tasks> taskList) {
-		TaskModel.taskList = taskList;
-	}
+/**
+ * @param tasks the tasks to set
+ */
+public static void setTasks(List<Tasks> tasks) {
+TaskModel.tasks = tasks;
+}
+
+
 }

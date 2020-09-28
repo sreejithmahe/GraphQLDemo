@@ -23,77 +23,148 @@ import graphql.GraphQLException;
 
 
 
+/**
+ * @author k_sre
+ *
+ */
 @Service
-@PropertySources(value = { @PropertySource("classpath:application-exception-messages.yaml") })
+@PropertySources(value = {
+@PropertySource("classpath:application-exception-messages.yaml") })
 public class ProcessService {
-	
-	private static final Logger log= LoggerFactory.getLogger(CustomContainer.class);
-	
-	 @Value("${error.audit.500.message}")
-	  private String errorMessage500;
-	  @Value("${error.audit.504.message}")
-	  private String errorMessage504;
-	  @Value("${error.audit.400.message}")
-	  private String errorMessage400;
-	
-	
-	
-	private final ProcessRepository processRepository ;
-	
+
+/**
+ *
+ */
+private static final Logger LOG =
+LoggerFactory.getLogger(CustomContainer.class);
+
+ /**
+ *
+ */
+@Value("${error.audit.500.message}")
+  private String errorMessage500;
+  /**
+ *
+ */
+@Value("${error.audit.504.message}")
+  private String errorMessage504;
+  /**
+ *
+ */
+@Value("${error.audit.400.message}")
+  private String errorMessage400;
+
+
+
+/**
+ *
+ */
+private ProcessRepository processRepository;
+
+    /**
+     * @param processRepository processRepository
+     */
     public ProcessService(final ProcessRepository processRepository) {
-        this.processRepository = processRepository ;
+        this.processRepository = processRepository;
     }
+    /**
+     * @return allProcess
+     */
     @Transactional(readOnly = true)
     public List<Processes> getProcessAll() {
-    	return this.processRepository.findAll().stream().collect(Collectors.toList());
-	}
-    
-	@Transactional(readOnly = true)
-	public List<Processes> getProcess(final int count) {
-		
-		log.info("Logger");
-	try {
-		if(count == 0) 
-			return this.processRepository.findAll().stream().collect(Collectors.toList());
-        return this.processRepository.findAll().stream().limit(count).collect(Collectors.toList());
-	 } catch (GraphQLException ex) {
-	      throw new SreesoftCustomException(errorMessage400);
-	    } catch (SreesoftCustomException ex) {
-	      throw new SreesoftCustomException(errorMessage504);
-	    } catch (Exception ex) {
-	      throw new SreesoftCustomException(errorMessage500);
-	    }
-		
-		
-	}
-	@Transactional(readOnly = true)
-	public Processes getByTenantName(final String tenantName) {
+    return this.processRepository.findAll().stream().
+    collect(Collectors.toList());
+}
+
+/**
+ * @param count count
+ * @return count
+ */
+@Transactional(readOnly = true)
+public List<Processes> getProcess(final int count) {
+
+LOG.info("Logger");
+try {
+if (count == 0) {
+return this.processRepository.findAll().stream().collect(Collectors.toList());
+}
+        return this.processRepository.findAll().stream().
+        limit(count).collect(Collectors.toList());
+ } catch (GraphQLException ex) {
+      throw new SreesoftCustomException(errorMessage400);
+    } catch (SreesoftCustomException ex) {
+      throw new SreesoftCustomException(errorMessage504);
+    } catch (Exception ex) {
+      throw new SreesoftCustomException(errorMessage500);
+    }
+
+
+}
+/**
+ * @param tenantName tenantName
+ * @return name
+ */
+@Transactional(readOnly = true)
+public Processes getByTenantName(final String tenantName) {
         return this.processRepository.findByTenantName(tenantName);
     }
-	
-	@Transactional(readOnly=true)
-    public List<Processes> getProcessByPage(int page, int size){
-		Pageable pageable = PageRequest.of(page, size);
-		return this.processRepository.findAll(pageable).stream().collect(Collectors.toList());
-	}
-	@Transactional(readOnly=true)
-    public List<Processes> getProcessByPageSortedByTenantName(int page, int size,String SortBy){
-		Pageable pageable = PageRequest.of(page, size,Sort.by(SortBy));
-		return this.processRepository.findAll(pageable).stream().collect(Collectors.toList());
-	}
-	public Integer getTotalCount() {
-		return this.processRepository.findAll().size();
-	}
-	public Integer getTotalPage(int page, int size) {
+
+/**
+ * @param page page
+ * @param size size
+ * @return size
+ */
+@Transactional(readOnly = true)
+public List<Processes> getProcessByPage(final int page, final int size) {
+Pageable pageable = PageRequest.of(page, size);
+return this.processRepository.findAll(pageable).stream().
+collect(Collectors.toList());
+}
+/**
+ * @param page page
+ * @param size size
+ * @param sortBy sortBy
+ * @return size
+ */
+@Transactional(readOnly = true)
+    public List<Processes>
+getProcessByPageSortedByTenantName(final int page, final int size,
+final String sortBy) {
+Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+return this.processRepository.findAll(pageable).stream().
+collect(Collectors.toList());
+}
+/**
+ * @return repo
+ */
+public Integer getTotalCount() {
+return this.processRepository.findAll().size();
+}
+/**
+ * @param page page
+ * @param size size
+ * @return size
+ */
+public Integer getTotalPage(final int page, final int size) {
         Pageable pageable = PageRequest.of(page, size);
        return this.processRepository.findAll(pageable).getTotalPages();
-	}
-	public Page<Processes> getPageInfo(int page, int size) {
+}
+/**
+ * @param page page
+ * @param size size
+ * @return size
+ */
+public Page<Processes> getPageInfo(final int page, final int size) {
         Pageable pageable = PageRequest.of(page, size);
         return this.processRepository.findAll(pageable);
-	}
-	public boolean getPageable(int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
+}
+/**
+ * @param page page
+ * @param size size
+ * @return size
+ */
+public boolean getPageable(final int page, final int size) {
+Pageable pageable = PageRequest.of(page, size);
         return this.processRepository.findAll(pageable).getPageable().isPaged();
-	}
+}
 }

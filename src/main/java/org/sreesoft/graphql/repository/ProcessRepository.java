@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.sreesoft.graphql.repository;
 
@@ -14,11 +14,19 @@ import org.sreesoft.graphql.entity.Processes;
  *
  */
 @Repository
-public interface ProcessRepository extends JpaRepository<Processes,Long>{
-	
-	public final static String FIND_BY_TENANT_QUERY = "from Processes where tenantName= :tenantName";
+public interface ProcessRepository extends JpaRepository<Processes, Long> {
 
- 	 @Query(FIND_BY_TENANT_QUERY)
-	 public Processes findByTenantName(@Param("tenantName") String tenantName);
- 	 
+/**
+ *
+ */
+String FIND_BY_TENANT_QUERY =
+"from Processes where tenantName= :tenantName";
+
+  /**
+ * @param tenantName tenantName
+ * @return result
+ */
+@Query(FIND_BY_TENANT_QUERY) Processes findByTenantName(@Param("tenantName")
+      String tenantName);
+
  }

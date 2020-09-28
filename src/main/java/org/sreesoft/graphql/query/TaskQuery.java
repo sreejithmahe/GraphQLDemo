@@ -15,31 +15,54 @@ import io.leangen.graphql.annotations.GraphQLQuery;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 
 
+/**
+ * @author k_sre
+ *
+ */
+
 @Component
 @GraphQLApi
-public class TaskQuery 
-{
-	@Autowired
-	TaskService taskService;
-   
-	@GraphQLQuery(name ="AllTaskModel")
-	public TaskModel getTask() {
-        
-		List<Tasks> taskList = taskService.getTaskAll();
-		TaskModel taskModel = new TaskModel();
-		TaskModel.setTaskList(taskList);
+public class TaskQuery {
+/**
+ *
+ */
+@Autowired
+private TaskService taskService;
+
+/**
+ * @return taskModel
+ */
+@GraphQLQuery(name = "AllTaskModel")
+public TaskModel getTask() {
+
+List<Tasks> taskList = taskService.getTaskAll();
+TaskModel taskModel = new TaskModel();
+TaskModel.setTasks(taskList);
         return taskModel;
     }
-	
-	@GraphQLQuery(name ="taskAll")
-	public List<Tasks> getTaskAll(@GraphQLArgument(name ="count" ,defaultValue = "0" ) final int count) {
-		return this.taskService.getTask(count);
-		
+
+/**
+ * @param count count
+ * @return count count
+ */
+@GraphQLQuery(name = "taskAll")
+public List<Tasks> getTaskAll(@GraphQLArgument(name = "count",
+defaultValue = "0") final int count) {
+return this.taskService.getTask(count);
+
     }
-	
-	
-	@GraphQLQuery(name = "_pageInfo")
-	public Page<Tasks> totalElements(@GraphQLContext TaskModel taskModel,@GraphQLArgument(name ="page" ,defaultValue = "0" ) final int page,@GraphQLArgument(name ="size" ,defaultValue = "25" )final int size) {
-		 return this.taskService.getPageInfo(page,size);
-	}
+
+
+/**
+ * @param taskModel taskModel
+ * @param page page
+ * @param size size
+ * @return size size
+ */
+@GraphQLQuery(name = "_pageInfo")
+public Page<Tasks> totalElements(@GraphQLContext final TaskModel taskModel,
+@GraphQLArgument(name = "page", defaultValue = "0")final int page,
+@GraphQLArgument(name = "size", defaultValue = "25")final int size) {
+ return this.taskService.getPageInfo(page, size);
+}
 }

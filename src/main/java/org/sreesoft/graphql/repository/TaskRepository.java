@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.sreesoft.graphql.repository;
 
@@ -12,5 +12,5 @@ import org.sreesoft.graphql.entity.Tasks;
  *
  */
 @Repository
-public interface TaskRepository extends JpaRepository<Tasks,Long>{
+public interface TaskRepository extends JpaRepository<Tasks, Long> {
 }

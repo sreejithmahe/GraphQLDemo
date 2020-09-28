@@ -13,26 +13,50 @@ import org.sreesoft.graphql.repository.TaskRepository;
 
 
 
+/**
+ * @author k_sre
+ *
+ */
 @Service
 public class TaskService {
-	
-	private final TaskRepository taskRepository ;
-	
+
+/**
+ *
+ */
+private TaskRepository taskRepository;
+
+    /**
+     * @param taskRepository taskRepository
+     */
     public TaskService(final TaskRepository taskRepository) {
-        this.taskRepository = taskRepository ;
+        this.taskRepository = taskRepository;
     }
+    /**
+     * @return result
+     */
+@Transactional(readOnly = true)
+public List<Tasks> getTaskAll() {
+return this.taskRepository.findAll().stream().collect(Collectors.toList());
+    }
+    /**
+     * @param count count
+     * @return count
+     */
     @Transactional(readOnly = true)
-	public List<Tasks> getTaskAll() {
-		return this.taskRepository.findAll().stream().collect(Collectors.toList());
+public List<Tasks> getTask(final int count) {
+if (count == 0) {
+    return this.taskRepository.findAll().stream().collect(Collectors.toList());
+}
+        return this.taskRepository.findAll().stream().limit(count).
+        collect(Collectors.toList());
     }
-    @Transactional(readOnly = true)
-	public List<Tasks> getTask(final int count) {
-		if(count == 0) 
-			return this.taskRepository.findAll().stream().collect(Collectors.toList());
-        return this.taskRepository.findAll().stream().limit(count).collect(Collectors.toList());
-    }
-    public Page<Tasks> getPageInfo(int page, int size) {
+    /**
+     * @param page size
+     * @param size size
+     * @return size
+     */
+    public Page<Tasks> getPageInfo(final int page, final int size) {
         Pageable pageable = PageRequest.of(page, size);
         return this.taskRepository.findAll(pageable);
-	}
+}
 }

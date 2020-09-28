@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.sreesoft.graphql.model;
 
@@ -9,16 +9,16 @@ import javax.persistence.AttributeConverter;
  * @author k_sre
  *
  */
-public class StatusConverter implements AttributeConverter<Status,String>{
+public class StatusConverter implements AttributeConverter<Status, String> {
 
-	@Override
-	public String convertToDatabaseColumn(Status status) {
-		return status.toString();
-	}
-
-	@Override
-	public Status convertToEntityAttribute(String dbValue) {
-		return Status.byDBValue(dbValue);
-	}
-
+@Override
+public final String convertToDatabaseColumn(final Status status) {
+return status.toString();
 }
+
+@Override
+public final Status convertToEntityAttribute(final String dbValue) {
+return Status.byDBValue(dbValue);
+}
+}
+
