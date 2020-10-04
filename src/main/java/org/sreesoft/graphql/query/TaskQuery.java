@@ -32,7 +32,7 @@ private TaskService taskService;
 /**
  * @return taskModel
  */
-@GraphQLQuery(name = "AllTaskModel")
+@GraphQLQuery(name = "allTasksModel")
 public TaskModel getTask() {
 
 List<Tasks> taskList = taskService.getTaskAll();

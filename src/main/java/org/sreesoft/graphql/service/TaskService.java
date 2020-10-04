@@ -1,5 +1,6 @@
 package org.sreesoft.graphql.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,8 +37,24 @@ private TaskRepository taskRepository;
      */
 @Transactional(readOnly = true)
 public List<Tasks> getTaskAll() {
+ List<String> assignee = new ArrayList<String>();
+List<Tasks> tasks = taskRepository.findAll();
+ String s1 = "";
+ for (Tasks t: tasks) {
+ String s2 = t.getProcessInstanceId().toString();
+    if (s1.equals(s2)) {
+     assignee.add(t.getAssignee());
+ t.setLatestAssignee(assignee);
+     } else {
+    s1 = t.getProcessInstanceId().toString();
+    assignee = new ArrayList<String>();
+     assignee.add(t.getAssignee());
+ t.setLatestAssignee(assignee);
+    }
+ }
 return this.taskRepository.findAll().stream().collect(Collectors.toList());
     }
+
     /**
      * @param count count
      * @return count

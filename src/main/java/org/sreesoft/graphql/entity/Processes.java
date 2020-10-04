@@ -17,7 +17,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.NaturalId;
@@ -75,6 +78,7 @@ private static final long serialVersionUID = 1L;
 
   @OneToMany(mappedBy = "processes", fetch = FetchType.LAZY,
       cascade = CascadeType.ALL)
+  @OrderBy("assignedDateTime DESC")
   private List<Tasks> tasks;
   
   
@@ -106,6 +110,11 @@ private static final long serialVersionUID = 1L;
 
   @NotNull
   private String eventType;
+  
+ //@Transient
+  
+  //@Column(name="assignee", table="tasks")
+  private String assignee;
 
 /**
  * @return the id
@@ -416,6 +425,14 @@ completedDateTime + ", terminatedBy="
  */
 public Processes() {
 super();
+}
+
+public String getAssignee() {
+	return assignee;
+}
+
+public void setAssignee(String assignee) {
+	this.assignee = assignee;
 }
 
 

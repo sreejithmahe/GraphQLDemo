@@ -1,6 +1,7 @@
 package org.sreesoft.graphql.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -11,7 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
@@ -21,6 +24,7 @@ import org.hibernate.annotations.Type;
 
 @Table(name = "tasks")
 @Entity
+//@SecondaryTable(name = "tasks")
 public class Tasks {
 
 
@@ -89,6 +93,9 @@ private Long id;
 
   @NotNull
   private String eventType;
+  
+  @Transient
+  private List<String> latestAssignee;
 
 /**
  * @return the id
@@ -436,6 +443,14 @@ return "Tasks [id=" + id + ", tenantId=" + tenantId + ", tenantName=" + tenantNa
  */
 public Tasks() {
 super();
+}
+
+public List<String> getLatestAssignee() {
+	return latestAssignee;
+}
+
+public void setLatestAssignee(List<String> latestAssignee) {
+	this.latestAssignee = latestAssignee;
 }
 
 }

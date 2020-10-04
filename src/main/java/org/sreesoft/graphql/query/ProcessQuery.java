@@ -1,16 +1,17 @@
 package org.sreesoft.graphql.query;
 
 import java.util.List;
-
+import java.util.UUID;
+import io.leangen.graphql.annotations.GraphQLArgument;
+import io.leangen.graphql.annotations.GraphQLQuery;
+import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.sreesoft.graphql.entity.Processes;
 import org.sreesoft.graphql.model.ProcessModel;
 import org.sreesoft.graphql.service.ProcessService;
 
-import io.leangen.graphql.annotations.GraphQLArgument;
-import io.leangen.graphql.annotations.GraphQLQuery;
-import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
+
 /**
  * @author k_sre
  *
@@ -49,13 +50,35 @@ defaultValue = "0") final int count) {
         return this.processService.getProcess(count);
     }
 
-
-/*
-
-@GraphQLQuery(name ="AllProcessByTenantName")
+/**
+ * @param processInstanceId processInstanceId
+ * @return Processes
+ */
+@GraphQLQuery(name = "processLatest")
+public  List<Processes>  getProcessLatest(final String processInstanceId) {
+return this.processService.
+getProcessLatest(UUID.fromString(processInstanceId));
+}
+/**
+ * @return ProcessModel
+ */
+@GraphQLQuery(name = "processLatestAssignee")
+public  ProcessModel  getProcessLatestAssignee() {
+List<Processes> processList = processService.getProcessLatestAssignee();
+    ProcessModel processModel = new ProcessModel();
+    ProcessModel.setProcess(processList);
+    return processModel;
+}
+/**
+ * @param tenantName tenantName
+ * @return Processes
+ */
+@GraphQLQuery(name = "processByTenantName")
 public Processes getByTenantName(final String tenantName) {
         return this.processService.getByTenantName(tenantName);
     }
+
+    /*
 @GraphQLQuery(name ="AllProcessByPage")
 public List<Processes> getProcessByPage(@GraphQLContext Processes processes,
 @GraphQLArgument(name ="page" ,defaultValue = "0")

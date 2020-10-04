@@ -1,8 +1,10 @@
 package org.sreesoft.graphql.service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -166,5 +168,30 @@ public Page<Processes> getPageInfo(final int page, final int size) {
 public boolean getPageable(final int page, final int size) {
 Pageable pageable = PageRequest.of(page, size);
         return this.processRepository.findAll(pageable).getPageable().isPaged();
+        }
+/**
+ * @param processInstanceId processInstanceId
+ * @return Processes
+ */
+public List<Processes> getProcessLatest(final UUID processInstanceId) {
+  return this.processRepository.
+         findTopByProcessInstanceIdOrderByIdDesc(processInstanceId).stream()
+          .collect(Collectors.toList());
 }
+/**
+ * @return Processes
+ */
+public List<Processes> getProcessLatestAssignee() {
+List<Processes> process = processRepository.findAll();
+ for (Processes p: process) {
+ if (StringUtils.isBlank(p.getTasks().get(0).getAssignee())) {
+ p.setAssignee(p.getProcessInstanceId().toString());
+ } else {
+ p.setAssignee(p.getTasks().get(0).getAssignee());
+
+ }
+ }
+  return this.processRepository.findAll().stream()
+          .collect(Collectors.toList());
+ }
 }
