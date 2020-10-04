@@ -1,5 +1,7 @@
 package org.sreesoft.graphql.service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -182,16 +184,22 @@ public List<Processes> getProcessLatest(final UUID processInstanceId) {
  * @return Processes
  */
 public List<Processes> getProcessLatestAssignee() {
-List<Processes> process = processRepository.findAll();
+final int monthDiff = 36;
+LocalDateTime now = LocalDateTime.now();
+LocalDateTime localDt = now.minusMonths(monthDiff);
+Timestamp endDateTime = Timestamp.valueOf(localDt);
+List<Processes> process = processRepository.findAllByLimit(endDateTime);
  for (Processes p: process) {
+  if (!p.getTasks().isEmpty()) {
  if (StringUtils.isBlank(p.getTasks().get(0).getAssignee())) {
  p.setAssignee(p.getProcessInstanceId().toString());
  } else {
  p.setAssignee(p.getTasks().get(0).getAssignee());
-
+ }
+ } else {
+ p.setAssignee("");
  }
  }
-  return this.processRepository.findAll().stream()
-          .collect(Collectors.toList());
+  return process;
  }
 }

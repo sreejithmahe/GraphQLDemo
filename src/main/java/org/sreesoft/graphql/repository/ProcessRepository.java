@@ -3,6 +3,7 @@
  */
 package org.sreesoft.graphql.repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,22 +57,44 @@ String FIND_BY_LATEST_ASSIGNEE_3 =
  * @param tenantName tenantName
  * @return result
  */
-@Query(FIND_BY_TENANT_QUERY)
-Processes findByTenantName(@Param("tenantName")
-      String tenantName);
 
 
 /**
+*
+*/
+String FIND_BY_LATEST_ASSIGNEE_4 =
+"from Processes where startDateTime > :endDateTime order by startDateTime";
+
+
+  /**
+ * @param tenantName tenantName
+ * @return Processes
+ */
+@Query(FIND_BY_TENANT_QUERY) Processes findByTenantName(@Param("tenantName")
+  String tenantName);
+ /**
  * @param processInstanceId processInstanceId
  * @return Processes
  */
-List<Processes> findTopByProcessInstanceIdOrderByIdDesc(UUID processInstanceId);
+
+  List<Processes> findTopByProcessInstanceIdOrderByIdDesc(UUID
+  processInstanceId);
 
 /**
  * @param processInstanceId processInstanceId
  * @return Processes Processes
  */
-@Query(FIND_BY_LATEST_ASSIGNEE_3)
-List<Processes> findLatestAssignee(@Param("processInstanceId")
-UUID processInstanceId);
+/*
+ * @Query(FIND_BY_LATEST_ASSIGNEE_3) List<Processes>
+ * findLatestAssignee(@Param("processInstanceId") UUID processInstanceId);
+ */
+
+  /**
+ * @param endDateTime endDateTime
+ * @return Processes
+ */
+@Query(FIND_BY_LATEST_ASSIGNEE_4)
+  List<Processes> findAllByLimit(@Param("endDateTime")
+  Timestamp endDateTime);
+
  }

@@ -31,7 +31,7 @@ private ProcessService processService;
  * @param count count
  * @return count
  */
-@GraphQLQuery(name = "AllProcessModel")
+@GraphQLQuery(name = "allProcessModel")
 public ProcessModel getProcess1(@GraphQLArgument(name = "count",
 defaultValue = "0") final int count) {
 
