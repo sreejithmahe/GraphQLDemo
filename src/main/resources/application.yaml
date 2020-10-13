@@ -15,4 +15,5 @@ graphql:
   spqr:
     http:
       endpoint: /sreesoft
+    gui:      enabled: true
 
