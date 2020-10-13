@@ -22,6 +22,6 @@ LoggerFactory.getLogger(CustomContainer.class);
   @Override
 public final void customize(final TomcatServletWebServerFactory factory) {
     LOG.info("!!!!!!!!!!!!!!!!!!Application Started !!!!!!!!!!!!!!!!");
-     factory.setContextPath("/sreesoft");
+   //  factory.setContextPath("/sreesoft");
          }
 }

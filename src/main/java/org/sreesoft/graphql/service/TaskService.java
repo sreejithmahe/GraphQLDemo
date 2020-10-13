@@ -52,7 +52,7 @@ List<Tasks> tasks = taskRepository.findAll();
  t.setLatestAssignee(assignee);
     }
  }
-return this.taskRepository.findAll().stream().collect(Collectors.toList());
+return tasks;
     }
 
     /**

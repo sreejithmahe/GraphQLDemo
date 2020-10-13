@@ -111,7 +111,7 @@ private static final long serialVersionUID = 1L;
   @NotNull
   private String eventType;
   
- //@Transient
+ @Transient
   
   //@Column(name="assignee", table="tasks")
   private String assignee;
